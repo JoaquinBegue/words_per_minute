@@ -1,25 +1,32 @@
 # TODO:
-# make the wrong spaces appear with red background
+# add comments
+# fix the cursor blinking
 # make the wrong input don't count to the WPM
 
 import curses, time, random
 from curses import wrapper
 
 
+# Function to display the starting screen.
 def start_screen(stdscr):
     stdscr.clear()
     stdscr.addstr("Press any key start Words Per Minute\n")
     stdscr.refresh()
     stdscr.getkey()
 
-
+# Function to display the written text.
 def display_text(stdscr, target, current, wpm=0):
     stdscr.addstr(target)
     stdscr.addstr(1, 0, f"WPM: {wpm}")
 
     for i, char in enumerate(current):
+        # If the input is correct, display it green.
         if char == target[i]:
             color = curses.color_pair(1)
+        # If it's incorrect, but it's an space, display it with red bg.
+        elif char == ' ':
+            color = curses.color_pair(3)
+        # Else, display it red.
         else:
             color = curses.color_pair(2)
 
@@ -68,6 +75,7 @@ def main(stdscr):
 
     curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
+    curses.init_pair(3, curses.COLOR_RED, curses.COLOR_RED)
 
     start_screen(stdscr)
 
